@@ -79,7 +79,7 @@
 
 ---
 
-## 运行说明（Flask API + 前端大屏）
+## 运行说明
 
 ### 1. 安装依赖
 
@@ -87,19 +87,31 @@
 pip install -r requirements.txt
 ```
 
-### 2. 运行分析流水线（可选，用于刷新模型与方面分析结果）
+### 2. 清洗数据+商品分类
 
 ```bash
-python3 aspect_sentiment_pipeline.py --models lexicon,textcnn,bilstm --output-dir analysis_outputs_full
+python3 data_clean_store.py \
+  --source-dir goods \
+  --clean-out-dir goods_cleaned \
+  --export-csv
 ```
 
-### 3. 启动 Flask 服务
+### 3. 运行分析流水线（可选，用于刷新模型与方面分析结果）
+
+```bash
+python3 aspect_sentiment_pipeline.py \
+  --input-csv goods_cleaned/datasets/all_comments_clean.csv \
+  --output-dir analysis_outputs_full \
+  --models lexicon,textcnn,bilstm,bert
+```
+
+### 4. 启动 Flask 服务
 
 ```bash
 python3 app.py
 ```
 
-### 4. 浏览器访问
+### 5. 浏览器访问
 
 | 系统 | 地址 |
 |------|------|
