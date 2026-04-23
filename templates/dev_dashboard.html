@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>开发者模型看板</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body class="dev-page">
+  <div class="bg-layer"></div>
+  <div class="page dev-layout">
+    <aside class="left-rail glass-panel">
+      <div class="logo-wrap">
+        <div class="logo-mark">AI</div>
+        <div>
+          <h2>开发者模型看板</h2>
+          <p>模型评估 · 数据诊断 · 结果核验</p>
+        </div>
+      </div>
+
+      <nav class="rail-nav">
+        <a href="#dev-overview">总览</a>
+        <a href="#dev-models">模型对比</a>
+        <a href="#dev-diagnostics">诊断视图</a>
+        <a href="#dev-report">训练报告</a>
+      </nav>
+
+      <div class="rail-footer">
+        <a class="rail-button rail-button-primary" href="/user">前往用户大屏</a>
+      </div>
+    </aside>
+
+    <main class="main-stage">
+      <section id="dev-overview" class="glass-panel hero-stage dev-hero">
+        <div class="hero-copy">
+          <div class="hero-tag">Developer Dashboard</div>
+          <h1>让模型结果一眼可读</h1>
+          <p>聚合模型指标、标签分布和训练报告，方便快速定位最优模型与潜在异常。</p>
+
+          <div class="hero-actions">
+            <button class="hero-link secondary" id="reloadInlineBtn" type="button">立即刷新</button>
+          </div>
+        </div>
+
+        <div class="hero-grid dev-stats">
+          <div class="hero-card">
+            <span>加载时间</span>
+            <strong id="kpiLoad">-</strong>
+          </div>
+          <div class="hero-card">
+            <span>模型数量</span>
+            <strong id="kpiModels">-</strong>
+          </div>
+          <div class="hero-card">
+            <span>评论数量</span>
+            <strong id="kpiComments">-</strong>
+          </div>
+          <div class="hero-card">
+            <span>最佳模型</span>
+            <strong id="kpiBest">-</strong>
+          </div>
+        </div>
+      </section>
+
+      <section id="dev-models" class="dev-section-header">
+        <div>
+          <h2>模型对比</h2>
+          <p>通过条形图、雷达图和指标表查看各模型表现。</p>
+        </div>
+      </section>
+
+      <section class="charts-stage dev-charts">
+        <section class="glass-panel chart-card">
+          <div class="chart-head"><h3>模型指标对比</h3><span>Accuracy / Precision / Recall / F1</span></div>
+          <div id="modelBar" class="chart"></div>
+        </section>
+        <section class="glass-panel chart-card">
+          <div class="chart-head"><h3>模型能力雷达图</h3><span>整体维度均衡性</span></div>
+          <div id="modelRadar" class="chart"></div>
+        </section>
+        <section id="dev-diagnostics" class="glass-panel chart-card">
+          <div class="chart-head"><h3>标签分布诊断</h3><span>样本偏移一目了然</span></div>
+          <div id="labelDist" class="chart"></div>
+        </section>
+      </section>
+
+      <section class="glass-panel table-card dev-table-card">
+        <div class="table-head">
+          <div>
+            <h3>模型指标表</h3>
+            <p>用于精确核对各项评估指标。</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>模型</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+            </thead>
+            <tbody id="metricsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="dev-report" class="glass-panel table-card dev-report-card">
+        <div class="table-head">
+          <div>
+            <h3>训练报告</h3>
+            <p>保留原始文本，便于调试与回溯。</p>
+          </div>
+        </div>
+        <pre id="reportText" class="report-text">加载中...</pre>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/dev_dashboard.js"></script>
+</body>
+</html>

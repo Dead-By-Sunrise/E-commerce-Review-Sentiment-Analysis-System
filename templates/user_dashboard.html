@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sentinel Vision · 用户评论智能中心</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="bg-layer"></div>
+
+  <div class="page">
+    <aside class="left-rail glass-panel">
+      <div class="logo-wrap">
+        <div class="logo-mark">SV</div>
+        <div>
+          <h2>Sentinel Vision</h2>
+          <p>Intelligence Release 2026</p>
+        </div>
+      </div>
+
+      <nav class="rail-nav">
+        <a href="#heroSection">发布会首页</a>
+        <a href="#controlSection">筛选控制台</a>
+        <a href="#metricSection">核心指标</a>
+        <a href="#chartsSection">智能图谱</a>
+        <a href="#panel-comments">评论数据湖</a>
+      </nav>
+
+      <div class="rail-footer">
+        <a class="rail-button rail-button-secondary" href="/dev">开发者模式</a>
+      </div>
+    </aside>
+
+    <main class="main-stage">
+      <header id="heroSection" class="hero-stage glass-panel">
+        <div class="hero-copy">
+          <span class="hero-tag">KEYNOTE EXPERIENCE</span>
+          <h1>让用户评论，成为下一次产品增长的发布会级信号</h1>
+          <p>融合情感识别、方面洞察与商品对比，打造可交互的数据发布舞台。点击任意图表即可进入全屏放大分析模式。</p>
+        </div>
+        <div class="hero-grid">
+          <article class="hero-card"><span>数据覆盖</span><strong id="heroCoverage">-</strong></article>
+          <article class="hero-card"><span>满意度指数</span><strong id="heroSatisfaction">-</strong></article>
+          <article class="hero-card"><span>舆情动量</span><strong id="heroPulse">-</strong></article>
+          <article class="hero-card"><span>监控商品数</span><strong id="heroGoods">-</strong></article>
+        </div>
+      </header>
+
+      <section id="controlSection" class="control-stage glass-panel">
+        <div class="control-head">
+          <h3>数据控制台</h3>
+          <button id="reloadBtn">刷新数据</button>
+        </div>
+        <div class="filters">
+          <div class="filter-item">
+            <label>商品类别</label>
+            <select id="categorySelect"></select>
+          </div>
+          <div class="filter-item goods-picker">
+            <label>目标商品（支持多选）</label>
+            <input id="goodsSearchInput" type="text" placeholder="输入商品名称搜索并点击添加" />
+            <div id="goodsPickerList" class="picker-list"></div>
+            <div id="goodsChips" class="chips"></div>
+          </div>
+          <div class="filter-item">
+            <label>关键词过滤</label>
+            <input id="keywordInput" type="text" placeholder="如：拍照、物流、口感" />
+            <small class="filter-hint">也可以点击下方自动生成的特征按钮，一键筛选</small>
+          </div>
+          <div class="filter-item">
+            <label>情感过滤</label>
+            <select id="sentimentSelect">
+              <option value="">全部</option>
+              <option value="positive">positive</option>
+              <option value="neutral">neutral</option>
+              <option value="negative">negative</option>
+            </select>
+          </div>
+          <div class="filter-item btns">
+            <button id="applyBtn">应用筛选</button>
+            <button id="clearBtn" class="ghost-btn">清空条件</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="metricSection" class="metric-stage">
+        <div class="metric-card glass-panel"><p>评论总量</p><h2 id="kpiComments">-</h2></div>
+        <div class="metric-card glass-panel"><p>商品数量</p><h2 id="kpiGoods">-</h2></div>
+        <div class="metric-card glass-panel"><p>平均评分</p><h2 id="kpiRating">-</h2></div>
+        <div class="metric-card glass-panel"><p>当前关键词</p><h2 id="kpiKeyword">-</h2></div>
+      </section>
+
+      <section id="chartsSection" class="charts-stage">
+        <article class="chart-card glass-panel" data-chart="compare">
+          <div class="chart-head"><h3>多商品对比</h3><button class="expand-btn" data-chart="compare">放大</button></div>
+          <div id="goodsCompare" class="chart"></div>
+        </article>
+
+        <article class="chart-card glass-panel" data-chart="pie">
+          <div class="chart-head"><h3>情感分布</h3><button class="expand-btn" data-chart="pie">放大</button></div>
+          <div id="sentimentPie" class="chart"></div>
+        </article>
+
+        <article class="chart-card glass-panel" data-chart="trend">
+          <div class="chart-head"><h3>情感趋势</h3><button class="expand-btn" data-chart="trend">放大</button></div>
+          <div id="trendLine" class="chart"></div>
+        </article>
+
+        <article class="chart-card glass-panel" data-chart="aspect">
+          <div class="chart-head"><h3>方面情感分布</h3><button class="expand-btn" data-chart="aspect">放大</button></div>
+          <div id="aspectStack" class="chart"></div>
+        </article>
+
+        <article class="chart-card glass-panel" data-chart="radar">
+          <div class="chart-head"><h3>多商品方面雷达</h3><button class="expand-btn" data-chart="radar">放大</button></div>
+          <div id="aspectRadar" class="chart"></div>
+        </article>
+
+        <article class="chart-card glass-panel" data-chart="keyword">
+          <div class="chart-head"><h3>关键词统计</h3><button class="expand-btn" data-chart="keyword">放大</button></div>
+          <div id="keywordBar" class="chart"></div>
+        </article>
+      </section>
+
+      <section id="panel-comments" class="comment-stage glass-panel">
+        <div class="table-head">
+          <h3>评论数据湖</h3>
+          <div class="table-pagination">
+            <button id="prevPageBtn">上一页</button>
+            <span id="pageInfo">第 1 页</span>
+            <button id="nextPageBtn">下一页</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>商品名称</th><th>用户</th><th>评分</th><th>情感</th><th>时间</th><th>评论</th></tr>
+            </thead>
+            <tbody id="commentTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="chartModal" class="chart-modal" aria-hidden="true">
+    <div class="chart-modal-backdrop" data-close="modal"></div>
+    <div class="chart-modal-content glass-panel">
+      <div class="chart-modal-head">
+        <h3 id="chartModalTitle">图表放大</h3>
+        <button id="chartModalClose">关闭</button>
+      </div>
+      <div id="chartModalCanvas" class="chart-modal-canvas"></div>
+    </div>
+  </div>
+
+  <script src="/static/user_dashboard.js"></script>
+</body>
+</html>

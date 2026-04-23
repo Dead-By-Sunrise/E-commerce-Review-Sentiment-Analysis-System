@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>商品评论情感分析大屏</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="title-wrap">
+      <h1>商品评论情感分析大屏</h1>
+      <p>模型对比 + 方面级细粒度分析 + 同类商品多维比较</p>
+    </div>
+    <div class="actions">
+      <button id="reloadBtn">刷新数据</button>
+    </div>
+  </header>
+
+  <section class="filters card">
+    <div class="filter-item">
+      <label for="categorySelect">商品类别</label>
+      <select id="categorySelect"></select>
+    </div>
+    <div class="filter-item">
+      <label for="goodsSelect">商品名称</label>
+      <select id="goodsSelect"></select>
+    </div>
+    <div class="filter-item">
+      <label for="compareTopN">同类对比数量</label>
+      <input id="compareTopN" type="number" value="5" min="2" max="10" />
+    </div>
+    <div class="filter-item btns">
+      <button id="applyBtn">应用筛选</button>
+      <button id="clearGoodsBtn">仅看类别</button>
+    </div>
+  </section>
+
+  <section class="kpi-grid">
+    <div class="kpi card"><div class="kpi-label">评论总量</div><div id="kpiComments" class="kpi-val">-</div></div>
+    <div class="kpi card"><div class="kpi-label">商品数量</div><div id="kpiGoods" class="kpi-val">-</div></div>
+    <div class="kpi card"><div class="kpi-label">平均评分</div><div id="kpiRating" class="kpi-val">-</div></div>
+    <div class="kpi card"><div class="kpi-label">当前类别</div><div id="kpiCategory" class="kpi-val">-</div></div>
+  </section>
+
+  <main class="dashboard-grid">
+    <section class="card chart-card"><h3>模型效果对比</h3><div id="modelChart" class="chart"></div></section>
+    <section class="card chart-card"><h3>情感分布</h3><div id="sentimentPie" class="chart"></div></section>
+    <section class="card chart-card"><h3>情感时间趋势</h3><div id="trendLine" class="chart"></div></section>
+    <section class="card chart-card"><h3>方面情感分布（堆叠）</h3><div id="aspectStack" class="chart"></div></section>
+    <section class="card chart-card"><h3>同类商品维度对比（雷达）</h3><div id="aspectRadar" class="chart"></div></section>
+    <section class="card chart-card"><h3>关键词词云数据</h3><div id="keywordBar" class="chart"></div></section>
+  </main>
+
+  <section class="card table-card">
+    <div class="table-head">
+      <h3>评论明细</h3>
+      <div class="table-pagination">
+        <button id="prevPageBtn">上一页</button>
+        <span id="pageInfo">第 1 页</span>
+        <button id="nextPageBtn">下一页</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>商品名称</th>
+            <th>用户</th>
+            <th>评分</th>
+            <th>情感</th>
+            <th>时间</th>
+            <th>评论</th>
+          </tr>
+        </thead>
+        <tbody id="commentTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="/static/dashboard.js"></script>
+</body>
+</html>
