@@ -116,7 +116,7 @@ function baseChartOption() {
     animationDuration: 700,
     animationEasing: "cubicOut",
     textStyle: { color: chartPalette.text, fontFamily: "Inter, PingFang SC, Microsoft YaHei, sans-serif" },
-    grid: { left: 42, right: 24, top: 54, bottom: 42, containLabel: true },
+    grid: { left: 42, right: 24, top: 66, bottom: 42, containLabel: true },
     tooltip: {
       backgroundColor: "rgba(9, 14, 27, 0.92)",
       borderColor: "rgba(110, 231, 255, 0.35)",
@@ -312,7 +312,7 @@ async function renderGoodsCompare() {
   const x = data.map((d) => d.goods_name || d.goods_id);
   applyChart("compare", {
     ...baseChartOption(),
-    legend: { top: 8, textStyle: { color: chartPalette.text } },
+    legend: { top: 24, textStyle: { color: chartPalette.text } },
     xAxis: {
       type: "category",
       data: x,
@@ -507,23 +507,23 @@ function setGoodsDetailVisibility() {
 function buildSinglePieOption(name, rows) {
   return {
     ...baseChartOption(),
-    title: { text: name ? `${name} · 情感分布` : "情感分布", left: 8, textStyle: { color: chartPalette.text, fontSize: 12 } },
-    legend: { bottom: 0, textStyle: { color: chartPalette.text } },
-    series: [{ type: "pie", radius: ["42%", "72%"], center: ["50%", "46%"], label: { color: chartPalette.text }, itemStyle: { borderColor: "#0b1226", borderWidth: 2 }, color: [chartPalette.negative, chartPalette.neutral, chartPalette.positive], data: rows }],
+    title: { text: name ? `${name} · 情感分布` : "情感分布", left: 8, top: 8, textStyle: { color: chartPalette.text, fontSize: 12 } },
+    legend: { top: 28, textStyle: { color: chartPalette.text } },
+    series: [{ type: "pie", radius: ["42%", "72%"], center: ["50%", "54%"], label: { color: chartPalette.text }, itemStyle: { borderColor: "#0b1226", borderWidth: 2 }, color: [chartPalette.negative, chartPalette.neutral, chartPalette.positive], data: rows }],
   };
 }
 
 function buildMultiPieOption(list) {
   return {
     ...baseChartOption(),
-    title: { text: "多商品情感分布", left: 8, textStyle: { color: chartPalette.text, fontSize: 12 } },
-    legend: { top: 8, textStyle: { color: chartPalette.text } },
-    grid: { left: 24, right: 24, top: 54, bottom: 24, containLabel: true },
+    title: { text: "多商品情感分布", left: 8, top: 8, textStyle: { color: chartPalette.text, fontSize: 12 } },
+    legend: { top: 28, textStyle: { color: chartPalette.text } },
+    grid: { left: 24, right: 24, top: 70, bottom: 24, containLabel: true },
     series: list.map((rows, idx) => ({
       name: state.goodsNames[idx] || `商品${idx + 1}`,
       type: "pie",
       radius: ["16%", "32%"],
-      center: [String(20 + idx * (60 / Math.max(1, list.length))) + "%", "50%"],
+      center: [String(20 + idx * (60 / Math.max(1, list.length))) + "%", "56%"],
       label: { color: chartPalette.text },
       color: [chartPalette.negative, chartPalette.neutral, chartPalette.positive],
       data: rows,
@@ -534,8 +534,9 @@ function buildMultiPieOption(list) {
 function buildSingleTrendOption(name, data) {
   return {
     ...baseChartOption(),
-    title: { text: name ? `${name} · 情感趋势` : "情感趋势", left: 8, textStyle: { color: chartPalette.text, fontSize: 12 } },
-    legend: { top: 8, textStyle: { color: chartPalette.text } },
+    title: { text: name ? `${name} · 情感趋势` : "情感趋势", left: 8, top: 8, textStyle: { color: chartPalette.text, fontSize: 12 } },
+    legend: { top: 28, textStyle: { color: chartPalette.text } },
+    grid: { left: 42, right: 24, top: 74, bottom: 42, containLabel: true },
     xAxis: { type: "category", data: data.dates || [], axisLine: { lineStyle: { color: chartPalette.grid } }, axisLabel: { color: chartPalette.axis } },
     yAxis: { type: "value", splitLine: { lineStyle: { color: chartPalette.grid } }, axisLabel: { color: chartPalette.axis } },
     series: [
@@ -571,8 +572,9 @@ function buildSingleAspectOption(name, rows) {
   rows.forEach((r) => (map[`${r.aspect}-${r.aspect_sentiment}`] = r.count));
   return {
     ...baseChartOption(),
-    title: { text: name ? `${name} · 方面情感分布` : "方面情感分布", left: 8, textStyle: { color: chartPalette.text, fontSize: 12 } },
-    legend: { top: 8, textStyle: { color: chartPalette.text } },
+    title: { text: name ? `${name} · 方面情感分布` : "方面情感分布", left: 8, top: 8, textStyle: { color: chartPalette.text, fontSize: 12 } },
+    legend: { top: 28, textStyle: { color: chartPalette.text } },
+    grid: { left: 42, right: 24, top: 76, bottom: 42, containLabel: true },
     xAxis: { type: "category", data: aspects, axisLine: { lineStyle: { color: chartPalette.grid } }, axisLabel: { color: chartPalette.axis, rotate: 20 } },
     yAxis: { type: "value", splitLine: { lineStyle: { color: chartPalette.grid } }, axisLabel: { color: chartPalette.axis } },
     series: sentiments.map((s) => ({ name: s, type: "bar", stack: "all", data: aspects.map((a) => map[`${a}-${s}`] || 0) })),
@@ -582,8 +584,9 @@ function buildSingleAspectOption(name, rows) {
 function buildMultiAspectOption(list) {
   return {
     ...baseChartOption(),
-    title: { text: "多商品方面情感分布", left: 8, textStyle: { color: chartPalette.text, fontSize: 12 } },
-    legend: { top: 8, textStyle: { color: chartPalette.text } },
+    title: { text: "多商品方面情感分布", left: 8, top: 8, textStyle: { color: chartPalette.text, fontSize: 12 } },
+    legend: { top: 28, textStyle: { color: chartPalette.text } },
+    grid: { left: 42, right: 24, top: 76, bottom: 42, containLabel: true },
     xAxis: { type: "category", data: state.goodsNames, axisLine: { lineStyle: { color: chartPalette.grid } }, axisLabel: { color: chartPalette.axis, rotate: 20 } },
     yAxis: { type: "value", splitLine: { lineStyle: { color: chartPalette.grid } }, axisLabel: { color: chartPalette.axis } },
     series: [{ name: "方面总量", type: "bar", data: list.map((rows) => rows.length) }],
